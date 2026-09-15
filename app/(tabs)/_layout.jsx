@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Tabs } from 'expo-router'
 import { TabBar } from '../../components/TabBar'
 import TabHeader from '../../components/TabHeader'
+import { colors } from '../../styles/global'
 
 const TabsLayout = () => {
   return (
