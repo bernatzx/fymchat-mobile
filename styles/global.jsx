@@ -30,5 +30,15 @@ export const global = StyleSheet.create({
       height: 5,
     },
     elevation: 3,
-  }
+  },
+  horizontalDivider: {
+    height: 1,
+    backgroundColor: '#E5E5E5',
+    width: '100%',
+  },
+  verticalDivider: {
+    width: 1,
+    backgroundColor: '#E5E5E5',
+    height: '100%',
+  },
 })

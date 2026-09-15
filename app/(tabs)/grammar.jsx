@@ -41,7 +41,7 @@ const Grammar = () => {
       {/* HEADER */}
       <View style={[styles.headerCard, global.shadow]}>
         <MaterialIcons color={colors.PRIMARY_DARK_GREEN} size={60} style={[styles.headerIcon, global.shadow]} name='spellcheck' />
-        <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+        <View>
           <Text style={styles.headerTitle}>Grammar Checker</Text>
           <Text style={styles.headerSubtitle}>Fix spelling, grammar, punctuation</Text>
         </View>
