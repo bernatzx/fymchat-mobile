@@ -3,12 +3,13 @@ import React, { useState } from 'react'
 import { colors, global } from '../../styles/global'
 import { Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import ErrorBox from '../../components/ErrorBox'
+import { paraphrase } from '../../services/api'
 
 const Paraphraser = () => {
   const [input, setInput] = useState('')
-  const [result, setResult] = useState(false)
+  const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState("")
 
   const inputLenght = 300
 
@@ -19,8 +20,12 @@ const Paraphraser = () => {
 
     try {
       setLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 5000))
-      setResult(true)
+      setError("")
+      setResult(null)
+
+      const data = await paraphrase(input)
+
+      setResult(data)
     } catch (error) {
       setError(error.message)
     } finally {
@@ -32,7 +37,7 @@ const Paraphraser = () => {
     if (loading) return
     setInput('')
     setResult(null)
-    setError(null)
+    setError("")
   }
 
   return (
@@ -105,7 +110,7 @@ const Paraphraser = () => {
             {/* Result */}
             <View style={styles.result}>
               <Text style={styles.resultText}>
-                {result}
+                {result?.paraphrased_text}
               </Text>
             </View>
 

@@ -4,12 +4,13 @@ import TabHeader from '../../components/TabHeader'
 import { Feather, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { colors, global } from '../../styles/global'
 import ErrorBox from '../../components/ErrorBox'
+import { checkGrammar } from '../../services/api'
 
 const Grammar = () => {
   const [input, setInput] = useState('')
-  const [result, setResult] = useState(false)
+  const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState("")
   const inputLength = 500;
 
 
@@ -20,8 +21,12 @@ const Grammar = () => {
 
     try {
       setLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 5000))
-      setResult(true)
+      setError("")
+      setResult(null)
+
+      const data = await checkGrammar(input)
+
+      setResult(data)
     } catch (error) {
       setError(error.message)
     } finally {
@@ -33,7 +38,7 @@ const Grammar = () => {
     if (loading) return
     setInput('')
     setResult(null)
-    setError(null)
+    setError("")
   }
 
   return (
@@ -52,7 +57,7 @@ const Grammar = () => {
       <ScrollView style={{ flex: 1, marginBottom: 10 }} contentContainerStyle={{ gap: 14 }}>
 
         {/* ERROR */}
-      {error && (
+        {error && (
           <ErrorBox message={error} />
         )}
 
@@ -105,7 +110,7 @@ const Grammar = () => {
             </View>
             <View style={styles.correction}>
               <Text style={{ fontWeight: '600', color: colors.TEXT_PRIMARY, textAlign: 'justify' }}>
-                {result.corrected_answer}
+                {result?.corrected_answer}
               </Text>
             </View>
             <View style={styles.explanations}>
@@ -124,7 +129,7 @@ const Grammar = () => {
                   marginTop: 10,
                   color: colors.PRIMARY_LIGHT_RED
                 }}>
-                  {result.explanation}
+                  {result?.explanation}
                 </Text>
               </View>
             </View>
@@ -226,7 +231,7 @@ const styles = StyleSheet.create({
     gap: 5,
     borderWidth: 1,
     borderRadius: 28,
-    padding: 10,
+    padding: 5,
     flex: 1
   }
 })

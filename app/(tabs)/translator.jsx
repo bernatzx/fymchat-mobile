@@ -4,13 +4,14 @@ import { Feather, MaterialIcons } from '@expo/vector-icons'
 import { colors, global } from '../../styles/global'
 import { Picker } from '@react-native-picker/picker';
 import ErrorBox from '../../components/ErrorBox'
+import { translator } from '../../services/api';
 
 const Translator = () => {
   const [input, setInput] = useState('')
   const [target, setTarget] = useState('english')
-  const [result, setResult] = useState(false)
+  const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState("")
 
   const handleTranslate = async () => {
     if (!input.trim() || !target.trim() || loading) return
@@ -19,8 +20,10 @@ const Translator = () => {
 
     try {
       setLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 5000))
-      setResult(true)
+      setError("")
+      setResult(null)
+      const data = await translator(input, target)
+      setResult(data)
     } catch (error) {
       setError(error.message)
     } finally {
@@ -31,9 +34,8 @@ const Translator = () => {
   const handleClear = () => {
     if (loading) return
     setInput('')
-    setTarget('english')
     setResult(null)
-    setError(null)
+    setError("")
   }
 
   return (
@@ -111,7 +113,7 @@ const Translator = () => {
                 )}
               </Pressable>
               <Text style={styles.resultText}>
-                {result}
+                {result?.translated_text}
               </Text>
             </View>
           </View>
@@ -140,6 +142,7 @@ const styles = StyleSheet.create({
     minHeight: 200
   },
   resultText: {
+    paddingTop: 10,
     fontSize: 18,
     textAlign: 'justify'
   },
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
     gap: 5,
     borderWidth: 1,
     borderRadius: 28,
-    padding: 10
+    padding: 5
   },
   headerCard: {
     flexDirection: 'row',
