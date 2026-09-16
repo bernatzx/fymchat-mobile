@@ -3,12 +3,14 @@ import React, { useState } from 'react'
 import TabHeader from '../../components/TabHeader'
 import { Feather, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { colors, global } from '../../styles/global'
+import ErrorBox from '../../components/ErrorBox'
 
 const Grammar = () => {
   const [input, setInput] = useState('')
   const [result, setResult] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const inputLength = 500;
 
 
   const handleCheck = async () => {
@@ -60,11 +62,11 @@ const Grammar = () => {
               keyboardType='default'
               autoCapitalize='none'
               multiline
-              maxLength={750}
+              maxLength={inputLength}
               style={styles.inputField}
             />
             <Text style={styles.characterCount}>
-              {input.length}/750
+              {input.length}/{inputLength}
             </Text>
           </View>
         </View>
@@ -124,6 +126,11 @@ const Grammar = () => {
             </View>
           </View>
         )}
+
+        {error && (
+          <ErrorBox message={error} />
+        )}
+
 
       </ScrollView>
 
