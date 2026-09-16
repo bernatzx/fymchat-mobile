@@ -51,6 +51,10 @@ const Grammar = () => {
 
       <ScrollView style={{ flex: 1, marginBottom: 10 }} contentContainerStyle={{ gap: 14 }}>
 
+        {/* ERROR */}
+      {error && (
+          <ErrorBox message={error} />
+        )}
 
         {/* INPUT */}
         <View style={[styles.outerCard, global.shadow]}>
@@ -101,7 +105,7 @@ const Grammar = () => {
             </View>
             <View style={styles.correction}>
               <Text style={{ fontWeight: '600', color: colors.TEXT_PRIMARY, textAlign: 'justify' }}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure ad voluptatem aliquam aperiam repellat nulla a facere illum, possimus omnis quo, eius qui minima perferendis pariatur ut ratione ex recusandae.
+                {result.corrected_answer}
               </Text>
             </View>
             <View style={styles.explanations}>
@@ -120,17 +124,12 @@ const Grammar = () => {
                   marginTop: 10,
                   color: colors.PRIMARY_LIGHT_RED
                 }}>
-                  sdsads
+                  {result.explanation}
                 </Text>
               </View>
             </View>
           </View>
         )}
-
-        {error && (
-          <ErrorBox message={error} />
-        )}
-
 
       </ScrollView>
 

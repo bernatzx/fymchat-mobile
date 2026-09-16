@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Feather, MaterialIcons } from '@expo/vector-icons'
 import { colors, global } from '../../styles/global'
 import { Picker } from '@react-native-picker/picker';
+import ErrorBox from '../../components/ErrorBox'
 
 const Translator = () => {
   const [input, setInput] = useState('')
@@ -73,6 +74,11 @@ const Translator = () => {
         </Pressable>
       </View>
 
+      {/* ERROR */}
+      {error && (
+        <ErrorBox message={error} />
+      )}
+
       <ScrollView style={{ flex: 1, marginBottom: 10 }} contentContainerStyle={{ gap: 14 }}>
         <View style={[styles.outerCard, global.shadow]}>
           <View style={styles.inputCard}>
@@ -110,6 +116,8 @@ const Translator = () => {
             </View>
           </View>
         </View>
+
+
       </ScrollView>
     </View>
   )
@@ -129,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingVertical: 10,
     flex: 1,
-    minHeight: 220
+    minHeight: 200
   },
   resultText: {
     fontSize: 18,
@@ -145,22 +153,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 28,
     padding: 10
-  },
-
-  resultsHead: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10
-  },
-  correction: {
-    backgroundColor: colors.WHITE,
-    padding: 10,
-    borderRadius: 10
-  },
-  explanations: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 10
   },
   headerCard: {
     flexDirection: 'row',
@@ -195,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   inputField: {
-    height: 150,
+    height: 120,
     textAlignVertical: 'top',
     fontSize: 16,
     textAlign: 'justify'
@@ -207,16 +199,4 @@ const styles = StyleSheet.create({
     color: colors.TEXT_MUTED,
     fontWeight: '600'
   },
-  checkBtn: {
-    backgroundColor: colors.PRIMARY_GREEN,
-    borderColor: colors.PRIMARY_DARK_GREEN,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-    borderWidth: 1,
-    borderRadius: 28,
-    padding: 10,
-    flex: 1
-  }
 })
